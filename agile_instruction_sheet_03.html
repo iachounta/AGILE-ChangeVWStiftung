@@ -1,0 +1,283 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sheet{max-width:680px;margin:0 auto;padding:1.5rem 1rem;font-family:var(--font-sans)}
+.header{background:#1F4E79;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.5rem}
+.badge{background:#E6F1FB;color:#0C447C;font-size:13px;font-weight:500;padding:4px 12px;border-radius:20px;white-space:nowrap;margin-top:2px;flex-shrink:0}
+.header h1{font-size:20px;font-weight:500;color:#fff;line-height:1.3}
+.header p{font-size:14px;color:#B5D4F4;line-height:1.6}
+.meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.meta-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.65rem .8rem}
+.meta-lbl{font-size:12px;color:var(--color-text-secondary);margin-bottom:2px}
+.meta-val{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.section{border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.sec-hdr{display:flex;align-items:center;gap:.6rem;padding:.75rem 1rem;background:var(--color-background-secondary);cursor:pointer;user-select:none}
+.sec-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0}
+.sec-title{font-size:15px;font-weight:500;color:var(--color-text-primary);flex:1}
+.chev{font-size:12px;color:var(--color-text-secondary);transition:transform .2s}
+.chev.open{transform:rotate(180deg)}
+.sec-body{padding:1.1rem;display:none;border-top:0.5px solid var(--color-border-tertiary)}
+.sec-body.open{display:block}
+.step{display:flex;gap:.8rem;margin-bottom:.9rem;align-items:flex-start}
+.step:last-child{margin-bottom:0}
+.step-dot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.step-text{font-size:14px;color:var(--color-text-primary);line-height:1.6}
+.step-text strong{font-weight:500}
+.prompt-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:.8rem 1rem;margin:.7rem 0;font-size:13px;color:var(--color-text-primary);line-height:1.8;font-family:var(--font-mono)}
+.prompt-box em{font-style:normal;color:var(--color-text-info)}
+.tip{background:#FAEEDA;border:0.5px solid #EF9F27;border-radius:8px;padding:.7rem .9rem;margin-top:.7rem}
+.tip-lbl{font-size:12px;font-weight:500;color:#633806;margin-bottom:3px}
+.tip p{font-size:13px;color:#633806;line-height:1.6}
+.warn{background:#FAECE7;border:0.5px solid #D85A30;border-radius:8px;padding:.7rem .9rem;margin-top:.7rem}
+.warn-lbl{font-size:12px;font-weight:500;color:#712B13;margin-bottom:3px}
+.warn p{font-size:13px;color:#712B13;line-height:1.6}
+.prompt-builder{border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:.9rem;margin-top:.8rem}
+.pb-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.65rem}
+.pb-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.pb-row input,.pb-row select{font-size:13px;padding:7px 9px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);width:100%}
+.pb-row label{font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:3px}
+.pb-full input,.pb-full select{font-size:13px;padding:7px 9px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);width:100%}
+.pb-full label{font-size:12px;color:var(--color-text-secondary);display:block;margin-bottom:3px}
+.pb-full{margin-bottom:8px}
+.pb-btn{width:100%;padding:9px;border-radius:7px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;margin-top:4px}
+.pb-btn:hover{background:var(--color-background-tertiary)}
+.pb-output{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:7px;padding:.75rem .9rem;margin-top:.65rem;font-size:13px;color:var(--color-text-primary);line-height:1.8;font-family:var(--font-mono);display:none;white-space:pre-wrap}
+.pb-copy{font-size:12px;color:var(--color-text-info);cursor:pointer;margin-top:.35rem;display:none}
+.checklist{list-style:none;margin-top:.6rem}
+.checklist li{display:flex;align-items:flex-start;gap:.65rem;font-size:14px;color:var(--color-text-primary);line-height:1.6;margin-bottom:.55rem}
+.chk{width:20px;height:20px;min-width:20px;border:2px solid var(--color-border-primary);border-radius:4px;margin-top:2px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--color-background-primary);transition:background .15s,border-color .15s}
+.chk:hover{border-color:#1D9E75}
+.chk.on{background:#1D9E75;border-color:#0F6E56}
+.chk svg{display:none;flex-shrink:0}
+.chk.on svg{display:block}
+.prog-wrap{background:var(--color-background-secondary);border-radius:20px;height:6px;margin:.6rem 0 .3rem;overflow:hidden}
+.prog{height:100%;background:#1D9E75;border-radius:20px;transition:width .3s}
+.prog-lbl{font-size:12px;color:var(--color-text-secondary)}
+.footer{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:.9rem 1rem;margin-top:1rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.footer-meta{font-size:12px;color:var(--color-text-secondary);line-height:1.7}
+.tag{display:inline-block;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;font-size:12px;color:var(--color-text-secondary);padding:3px 9px;margin:2px 2px 0 0}
+.footer-btn button{font-size:13px;cursor:pointer;padding:7px 16px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary)}
+.footer-btn button:hover{background:var(--color-background-secondary)}
+.demo-note{font-size:12px;color:var(--color-text-secondary);line-height:1.6;font-style:italic;margin-top:.5rem;border-top:0.5px solid var(--color-border-tertiary);padding-top:.5rem}
+</style>
+
+<div class="sheet">
+
+<div class="header">
+  <div class="header-top">
+    <h1>Using generative AI for lesson planning</h1>
+    <span class="badge">Instruction sheet #03</span>
+  </div>
+  <p>A step-by-step guide for teachers: how to use AI tools to support — not replace — your lesson planning process, with a built-in prompt builder.</p>
+</div>
+
+<div class="meta">
+  <div class="meta-card">
+    <div class="meta-lbl">School level</div>
+    <div class="meta-val">K-12 (all levels)</div>
+  </div>
+  <div class="meta-card">
+    <div class="meta-lbl">Time needed</div>
+    <div class="meta-val">15 – 30 min</div>
+  </div>
+  <div class="meta-card">
+    <div class="meta-lbl">Prerequisite</div>
+    <div class="meta-val">Sheet #01 completed</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#EEEDFE;color:#534AB7">1</div>
+    <span class="sec-title">Before you open any AI tool</span>
+    <span class="chev open">&#9660;</span>
+  </div>
+  <div class="sec-body open">
+    <div class="step">
+      <div class="step-dot" style="background:#534AB7"></div>
+      <div class="step-text"><strong>Write your learning objective first.</strong> In one sentence, complete: "By the end of this lesson, students will be able to…" Do this before opening the AI tool. The objective guides everything — the AI supports your plan, not the other way around.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#534AB7"></div>
+      <div class="step-text"><strong>Have your context ready.</strong> Note down: subject, grade or year group, lesson duration, any curricular constraints, and relevant prior knowledge of your students. The more specific your context, the more useful the AI output.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#534AB7"></div>
+      <div class="step-text"><strong>Confirm your tool is approved.</strong> Check your school's approved tool list (see Sheet #01). Do not enter student names, photos, or any identifying information into the tool.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-lbl">Tip</div>
+      <p>If you cannot clearly state your learning objective before using the AI, the lesson plan it produces will likely be generic and require significant rework. Invest 5 minutes here — it saves 20 later.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#E1F5EE;color:#0F6E56">2</div>
+    <span class="sec-title">Writing your prompt — and a builder to help</span>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="sec-body">
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>A good prompt has three parts:</strong> (1) role — tell the AI it is helping a teacher; (2) task — what you want it to produce; (3) context — subject, grade, duration, and your learning objective.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Example prompt structure:</strong></div>
+    </div>
+    <div class="prompt-box">"You are helping a <em>[subject]</em> teacher at <em>[school level]</em>.
+Create a <em>[duration]</em>-minute lesson plan on <em>[topic]</em> for <em>[grade/age]</em>.
+Learning objective: students will be able to <em>[objective]</em>.
+Include: <em>[starter / main activity / exit ticket / other]</em>."</div>
+
+    <div class="step" style="margin-top:.8rem">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Use the prompt builder below</strong> to generate a ready-to-paste prompt for your lesson.</div>
+    </div>
+
+    <div class="prompt-builder">
+      <div class="pb-title">Prompt builder</div>
+      <div class="pb-row">
+        <div><label>Subject</label><input type="text" id="pb-subject" placeholder="e.g. Biology"></div>
+        <div><label>Grade / age group</label><input type="text" id="pb-grade" placeholder="e.g. Year 9, age 13–14"></div>
+      </div>
+      <div class="pb-row">
+        <div><label>Lesson duration (minutes)</label><input type="text" id="pb-duration" placeholder="e.g. 45"></div>
+        <div><label>Topic</label><input type="text" id="pb-topic" placeholder="e.g. Photosynthesis"></div>
+      </div>
+      <div class="pb-full">
+        <label>Learning objective (students will be able to…)</label>
+        <input type="text" id="pb-obj" placeholder="e.g. explain the inputs and outputs of photosynthesis">
+      </div>
+      <div class="pb-full">
+        <label>Include in the plan</label>
+        <select id="pb-include">
+          <option value="a starter activity, main activity, and exit ticket">Starter + main activity + exit ticket</option>
+          <option value="a starter activity, main activity, group discussion, and exit ticket">Starter + main activity + group discussion + exit ticket</option>
+          <option value="a hook activity, direct instruction section, guided practice, and independent task">Hook + direct instruction + guided practice + independent task</option>
+          <option value="a warm-up, collaborative activity, and reflection prompt">Warm-up + collaborative activity + reflection</option>
+        </select>
+      </div>
+      <button class="pb-btn" onclick="buildPrompt()">Generate my prompt ↓</button>
+      <div class="pb-output" id="pb-out"></div>
+      <div class="pb-copy" id="pb-copy" onclick="copyPrompt()">Copy to clipboard</div>
+    </div>
+
+    <div class="tip" style="margin-top:.8rem">
+      <div class="tip-lbl">Tip — iterating</div>
+      <p>If the first output is too generic, refine: "Make the starter activity more hands-on" or "Adapt this for students with lower reading levels" or "Add a formative assessment moment at the midpoint." Save prompts that work well for reuse.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#FAECE7;color:#993C1D">3</div>
+    <span class="sec-title">Reviewing and adapting the output</span>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="sec-body">
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Never use AI output without review.</strong> AI-generated lesson plans may contain factual errors, culturally inappropriate content, or activities unsuitable for your students. You are responsible for everything that happens in your classroom.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Check curriculum alignment.</strong> Does the activity match your national or school curriculum requirements? Is the cognitive level appropriate? Does the timing seem realistic for your class?</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Add your professional knowledge.</strong> Insert your own examples, local references, and specific knowledge of your students. The AI has no knowledge of your class — you do. The best lesson plans blend AI efficiency with teacher expertise.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Ask the AI to explain its choices.</strong> If an activity seems unusual, prompt: "Why did you suggest this activity for this age group?" The answer helps you decide whether to keep, modify, or discard it.</div>
+    </div>
+    <div class="warn">
+      <div class="warn-lbl">Important</div>
+      <p>Do not copy AI output directly into official school documents or submit it as your own professional work without significant review and adaptation. Treat AI output as a first draft, not a finished product.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#E6F1FB;color:#185FA5">4</div>
+    <span class="sec-title">Pre-lesson checklist</span>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="sec-body">
+    <div class="prog-wrap"><div class="prog" id="prog" style="width:0%"></div></div>
+    <div class="prog-lbl" id="prog-lbl">0 of 6 completed</div>
+    <ul class="checklist" id="cklist" style="margin-top:.75rem">
+      <li><div class="chk" onclick="chk(this)"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>I defined my learning objective before using the AI tool</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>No student personal data was entered into the AI tool</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>I reviewed all AI-generated content for factual accuracy</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>Activities align with my curriculum requirements and timings are realistic</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>I have adapted the plan with my own knowledge of my students</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span>I could deliver this lesson confidently without the AI output if needed</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  <div style="flex:1">
+    <div class="footer-meta">
+      <strong style="font-size:13px;color:var(--color-text-primary)">Related instruction sheets</strong><br>
+      <span class="tag">#01 Choosing an appropriate AI tool</span>
+      <span class="tag">#05 AI-assisted assessment</span>
+      <span class="tag">#07 Discussing AI ethics with students</span>
+    </div>
+    <div class="demo-note">This is an interactive example (interface wireframe) for demonstration only. The interface wireframe was designed with the assistance of Claude 3.5 Sonnet (Anthropic, 2026), utilizing prompts to generate layout suggestions.</div>
+  </div>
+  <div class="footer-btn" style="flex-shrink:0">
+    <button onclick="sendPrompt('Show me instruction sheet 05 on AI-assisted assessment')">Next sheet ↗</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function tog(hdr){
+  const b=hdr.nextElementSibling,c=hdr.querySelector('.chev');
+  const o=b.classList.toggle('open');
+  c.classList.toggle('open',o);
+}
+function chk(box){
+  box.classList.toggle('on');
+  const all=document.querySelectorAll('#cklist .chk');
+  const done=document.querySelectorAll('#cklist .chk.on').length;
+  document.getElementById('prog').style.width=Math.round(done/all.length*100)+'%';
+  document.getElementById('prog-lbl').textContent=done+' of '+all.length+' completed';
+}
+function buildPrompt(){
+  const s=document.getElementById('pb-subject').value.trim();
+  const g=document.getElementById('pb-grade').value.trim();
+  const d=document.getElementById('pb-duration').value.trim();
+  const t=document.getElementById('pb-topic').value.trim();
+  const o=document.getElementById('pb-obj').value.trim();
+  const inc=document.getElementById('pb-include').value;
+  const out=document.getElementById('pb-out');
+  const copy=document.getElementById('pb-copy');
+  if(!s||!g||!d||!t||!o){
+    out.style.display='block';
+    out.textContent='Please fill in all fields to generate your prompt.';
+    copy.style.display='none';
+    return;
+  }
+  const prompt='You are helping a '+s+' teacher at '+g+' level.\nCreate a '+d+'-minute lesson plan on "'+t+'" for '+g+' students.\nLearning objective: students will be able to '+o+'.\nInclude '+inc+'.';
+  out.style.display='block';
+  out.textContent=prompt;
+  copy.style.display='block';
+}
+function copyPrompt(){
+  const text=document.getElementById('pb-out').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const c=document.getElementById('pb-copy');
+    c.textContent='Copied!';
+    setTimeout(()=>{c.textContent='Copy to clipboard'},2000);
+  });
+}
+</script>
