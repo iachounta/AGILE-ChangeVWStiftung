@@ -1,0 +1,205 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.sheet{max-width:680px;margin:0 auto;padding:1.5rem 1rem}
+.header{background:#1F4E79;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.5rem}
+.badge{background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;white-space:nowrap;margin-top:2px}
+.header h1{font-size:18px;font-weight:500;color:#fff;line-height:1.3}
+.header p{font-size:12px;color:#B5D4F4;line-height:1.5}
+.meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1.25rem}
+.meta-card{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.6rem .75rem}
+.meta-label{font-size:11px;color:var(--color-text-secondary);margin-bottom:2px}
+.meta-value{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.section{border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.section-header{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;background:var(--color-background-secondary);cursor:pointer;user-select:none}
+.section-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.section-title{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1}
+.chevron{font-size:12px;color:var(--color-text-secondary);transition:transform .2s}
+.chevron.open{transform:rotate(180deg)}
+.section-body{padding:1rem;display:none;border-top:0.5px solid var(--color-border-tertiary)}
+.section-body.open{display:block}
+.step{display:flex;gap:.75rem;margin-bottom:.85rem;align-items:flex-start}
+.step:last-child{margin-bottom:0}
+.step-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.step-text{font-size:13px;color:var(--color-text-primary);line-height:1.6}
+.step-text strong{font-weight:500}
+.tip{background:#FAEEDA;border:0.5px solid #EF9F27;border-radius:8px;padding:.6rem .85rem;margin-top:.6rem}
+.tip-label{font-size:11px;font-weight:500;color:#633806;margin-bottom:2px}
+.tip p{font-size:12px;color:#633806;line-height:1.5}
+.warning{background:#FAECE7;border:0.5px solid #D85A30;border-radius:8px;padding:.6rem .85rem;margin-top:.6rem}
+.warning-label{font-size:11px;font-weight:500;color:#712B13;margin-bottom:2px}
+.warning p{font-size:12px;color:#712B13;line-height:1.5}
+.checklist{list-style:none;margin-top:.5rem}
+.checklist li{display:flex;align-items:flex-start;gap:.5rem;font-size:13px;color:var(--color-text-primary);line-height:1.6;margin-bottom:.4rem}
+.check-box{width:14px;height:14px;border:1.5px solid var(--color-border-secondary);border-radius:3px;margin-top:3px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.check-box.checked{background:#1D9E75;border-color:#0F6E56}
+.check-mark{display:none;width:8px;height:8px}
+.check-box.checked .check-mark{display:block}
+.progress-bar-wrap{background:var(--color-background-secondary);border-radius:20px;height:6px;margin:.5rem 0 .25rem;overflow:hidden}
+.progress-bar{height:100%;background:#1D9E75;border-radius:20px;transition:width .3s}
+.progress-label{font-size:11px;color:var(--color-text-secondary)}
+.footer{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:.85rem 1rem;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.footer-meta{font-size:11px;color:var(--color-text-secondary);line-height:1.6}
+.footer-btn button{font-size:12px;cursor:pointer;padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary)}
+.footer-btn button:hover{background:var(--color-background-secondary)}
+.tag{display:inline-block;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;font-size:11px;color:var(--color-text-secondary);padding:2px 8px;margin:2px 2px 0 0}
+</style>
+
+<div class="sheet">
+
+<div class="header">
+  <div class="header-top">
+    <h1>Using generative AI for lesson planning</h1>
+    <span class="badge">Instruction sheet #03</span>
+  </div>
+  <p>A step-by-step guide for teachers: how to use AI tools to support — not replace — your lesson planning process.</p>
+</div>
+
+<div class="meta">
+  <div class="meta-card">
+    <div class="meta-label">School level</div>
+    <div class="meta-value">K-12 (all levels)</div>
+  </div>
+  <div class="meta-card">
+    <div class="meta-label">Time needed</div>
+    <div class="meta-value">15 – 30 min</div>
+  </div>
+  <div class="meta-card">
+    <div class="meta-label">AI literacy</div>
+    <div class="meta-value">Beginner</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-num" style="background:#EEEDFE;color:#534AB7">1</div>
+    <span class="section-title">Before you start</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <div class="step">
+      <div class="step-dot" style="background:#534AB7"></div>
+      <div class="step-text"><strong>Define your learning objective first.</strong> Write down what students should know or be able to do by the end of the lesson — before opening any AI tool. The AI supports your plan; it does not replace your pedagogical judgement.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#534AB7"></div>
+      <div class="step-text"><strong>Know your context.</strong> Have ready: subject, grade level, lesson duration, any curricular constraints, and the prior knowledge of your students. The more context you give the AI, the more relevant its suggestions will be.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#534AB7"></div>
+      <div class="step-text"><strong>Choose your tool.</strong> Common options include ChatGPT, Microsoft Copilot, or Gemini. Check your school's approved tool list first. Do not enter student names or personal data into any AI tool.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-label">Tip</div>
+      <p>Use a free account for getting started. You do not need a paid subscription for basic lesson planning support.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-num" style="background:#E1F5EE;color:#0F6E56">2</div>
+    <span class="section-title">Writing your prompt</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Structure your prompt in three parts:</strong> (1) role — tell the AI it is helping a teacher; (2) task — what you want it to produce; (3) context — subject, grade, duration, and learning objective.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Example prompt:</strong> <em>"You are helping a secondary school science teacher. Create a 45-minute lesson plan on photosynthesis for Year 8 students (age 12–13). The learning objective is: students can explain the inputs and outputs of photosynthesis. Include a starter activity, main activity, and exit ticket."</em></div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Iterate.</strong> If the first output is not quite right, refine: <em>"Make the starter activity more hands-on"</em> or <em>"Adapt this for students with lower reading levels."</em></div>
+    </div>
+    <div class="tip">
+      <div class="tip-label">Tip</div>
+      <p>Save prompts that work well. Over time you will build a personal library of effective prompts tailored to your subjects and teaching style.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-num" style="background:#FAECE7;color:#993C1D">3</div>
+    <span class="section-title">Reviewing and adapting the output</span>
+    <span class="chevron">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Always review before using.</strong> AI-generated lesson plans may contain factual errors, culturally inappropriate content, or activities unsuitable for your students. You are responsible for what happens in your classroom.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Check alignment with your curriculum.</strong> Does the activity match your national or school curriculum requirements? Does the level match your students' actual ability?</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#D85A30"></div>
+      <div class="step-text"><strong>Add your expertise.</strong> Insert your own examples, local references, and knowledge of your specific students. The AI has no knowledge of your class — you do.</div>
+    </div>
+    <div class="warning">
+      <div class="warning-label">Important</div>
+      <p>Do not copy AI output directly into official school documents or submit it as your own professional work without review and significant adaptation.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-header" onclick="toggle(this)">
+    <div class="section-num" style="background:#E6F1FB;color:#185FA5">4</div>
+    <span class="section-title">Checklist before your lesson</span>
+    <span class="chevron open">&#9660;</span>
+  </div>
+  <div class="section-body open">
+    <div class="progress-bar-wrap"><div class="progress-bar" id="prog" style="width:0%"></div></div>
+    <div class="progress-label" id="prog-label">0 of 6 completed</div>
+    <ul class="checklist" id="checklist" style="margin-top:.75rem">
+      <li><div class="check-box" onclick="check(this)"><svg class="check-mark" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I defined my learning objective before using the AI tool</span></li>
+      <li><div class="check-box" onclick="check(this)"><svg class="check-mark" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I checked that no student personal data was entered into the AI tool</span></li>
+      <li><div class="check-box" onclick="check(this)"><svg class="check-mark" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I reviewed all AI-generated content for factual accuracy</span></li>
+      <li><div class="check-box" onclick="check(this)"><svg class="check-mark" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I verified that activities align with my curriculum requirements</span></li>
+      <li><div class="check-box" onclick="check(this)"><svg class="check-mark" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I adapted the plan to reflect my knowledge of my students</span></li>
+      <li><div class="check-box" onclick="check(this)"><svg class="check-mark" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I could deliver this lesson without the AI output if needed</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  <div>
+    <div class="footer-meta">
+      <strong style="font-size:12px;color:var(--color-text-primary)">Related instruction sheets</strong><br>
+      <span class="tag">#05 AI-assisted assessment</span>
+      <span class="tag">#07 Discussing AI ethics with students</span>
+      <span class="tag">#11 Copyright and AI outputs</span>
+    </div>
+    <div class="footer-meta" style="margin-top:.5rem">AGILE project · CC BY 4.0 · v1.0 · Validated across 5 European countries</div>
+  </div>
+  <div class="footer-btn">
+    <button onclick="sendPrompt('Show me another instruction sheet example for AI-assisted assessment')">See next sheet ↗</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.chevron');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+function check(box) {
+  box.classList.toggle('checked');
+  const items = document.querySelectorAll('#checklist .check-box');
+  const done = document.querySelectorAll('#checklist .check-box.checked').length;
+  const total = items.length;
+  document.getElementById('prog').style.width = Math.round(done/total*100)+'%';
+  document.getElementById('prog-label').textContent = done+' of '+total+' completed';
+}
+document.querySelector('.section:nth-child(4) .section-header').click();
+</script>

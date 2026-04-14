@@ -1,0 +1,322 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sheet{max-width:680px;margin:0 auto;padding:1.5rem 1rem;font-family:var(--font-sans)}
+.header{background:#1F4E79;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.25rem}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.5rem}
+.badge{background:#E6F1FB;color:#0C447C;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;white-space:nowrap;margin-top:2px;flex-shrink:0}
+.header h1{font-size:18px;font-weight:500;color:#fff;line-height:1.3}
+.header p{font-size:12px;color:#B5D4F4;line-height:1.5}
+.section{border:0.5px solid var(--color-border-tertiary);border-radius:12px;margin-bottom:1rem;overflow:hidden}
+.sec-hdr{display:flex;align-items:center;gap:.6rem;padding:.7rem 1rem;background:var(--color-background-secondary);cursor:pointer;user-select:none}
+.sec-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.sec-title{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1}
+.chev{font-size:11px;color:var(--color-text-secondary);transition:transform .2s}
+.chev.open{transform:rotate(180deg)}
+.sec-body{padding:1rem;display:none;border-top:0.5px solid var(--color-border-tertiary)}
+.sec-body.open{display:block}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-bottom:.3rem}
+.field select,.field input[type=text]{width:100%;font-size:13px;padding:7px 10px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)}
+.btn-primary{display:block;width:100%;padding:9px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:13px;font-weight:500;color:var(--color-text-primary);cursor:pointer;margin-top:.25rem}
+.btn-primary:hover{background:var(--color-background-tertiary)}
+.result-card{border-radius:10px;padding:.85rem 1rem;margin-top:.85rem;border:0.5px solid var(--color-border-tertiary)}
+.result-title{font-size:13px;font-weight:500;margin-bottom:.3rem}
+.result-sub{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.green-card{background:#E1F5EE;border-color:#5DCAA5}
+.green-card .result-title{color:#085041}
+.green-card .result-sub{color:#0F6E56}
+.amber-card{background:#FAEEDA;border-color:#EF9F27}
+.amber-card .result-title{color:#633806}
+.amber-card .result-sub{color:#854F0B}
+.red-card{background:#FAECE7;border-color:#F0997B}
+.red-card .result-title{color:#712B13}
+.red-card .result-sub{color:#993C1D}
+.step{display:flex;gap:.75rem;margin-bottom:.8rem;align-items:flex-start}
+.step:last-child{margin-bottom:0}
+.step-dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.step-text{font-size:13px;color:var(--color-text-primary);line-height:1.6}
+.tip{background:#FAEEDA;border:0.5px solid #EF9F27;border-radius:8px;padding:.6rem .85rem;margin-top:.65rem}
+.tip-lbl{font-size:11px;font-weight:500;color:#633806;margin-bottom:2px}
+.tip p{font-size:12px;color:#633806;line-height:1.5}
+.warn{background:#FAECE7;border:0.5px solid #D85A30;border-radius:8px;padding:.6rem .85rem;margin-top:.65rem}
+.warn-lbl{font-size:11px;font-weight:500;color:#712B13;margin-bottom:2px}
+.warn p{font-size:12px;color:#712B13;line-height:1.5}
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:.5rem}
+.reg-item{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:.6rem .75rem}
+.reg-item-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px}
+.reg-item-body{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+.checklist{list-style:none;margin-top:.5rem}
+.checklist li{display:flex;align-items:flex-start;gap:.5rem;font-size:13px;color:var(--color-text-primary);line-height:1.6;margin-bottom:.4rem}
+.chk{width:14px;height:14px;border:1.5px solid var(--color-border-secondary);border-radius:3px;margin-top:3px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.chk.on{background:#1D9E75;border-color:#0F6E56}
+.chk svg{display:none}
+.chk.on svg{display:block}
+.prog-wrap{background:var(--color-background-secondary);border-radius:20px;height:5px;margin:.5rem 0 .2rem;overflow:hidden}
+.prog{height:100%;background:#1D9E75;border-radius:20px;transition:width .3s}
+.prog-lbl{font-size:11px;color:var(--color-text-secondary)}
+.footer{border:0.5px solid var(--color-border-tertiary);border-radius:12px;padding:.85rem 1rem;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.footer-meta{font-size:11px;color:var(--color-text-secondary);line-height:1.7}
+.tag{display:inline-block;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;font-size:11px;color:var(--color-text-secondary);padding:2px 8px;margin:2px 2px 0 0}
+.footer-btn button{font-size:12px;cursor:pointer;padding:6px 14px;border-radius:8px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-primary)}
+.footer-btn button:hover{background:var(--color-background-secondary)}
+</style>
+
+<div class="sheet">
+
+<div class="header">
+  <div class="header-top">
+    <h1>How to choose an appropriate AI tool for your classroom</h1>
+    <span class="badge">Instruction sheet #01</span>
+  </div>
+  <p>A decision guide for K-12 teachers: match your learning objective, school level, subject, and applicable regulations to the right AI tool — before you start.</p>
+</div>
+
+<!-- ── SECTION 1: Decision helper ─────────────────────────────────────── -->
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#EEEDFE;color:#534AB7">1</div>
+    <span class="sec-title">Decision helper — find your tool match</span>
+    <span class="chev open">&#9660;</span>
+  </div>
+  <div class="sec-body open">
+    <p style="font-size:13px;color:var(--color-text-secondary);margin-bottom:.85rem;line-height:1.5">Answer the four questions below. The tool will suggest whether a given AI application is appropriate for your context.</p>
+
+    <div class="field">
+      <label>What is your primary learning objective?</label>
+      <select id="obj">
+        <option value="">— select —</option>
+        <option value="explain">Explain / understand a concept</option>
+        <option value="create">Create or produce something (text, image, code)</option>
+        <option value="practice">Practice or drill a skill</option>
+        <option value="assess">Assess or give feedback on student work</option>
+        <option value="research">Research / gather information</option>
+        <option value="discuss">Discuss / debate a topic</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>School level</label>
+      <select id="level">
+        <option value="">— select —</option>
+        <option value="primary">Primary (ages 6–10)</option>
+        <option value="lower">Lower secondary (ages 11–14)</option>
+        <option value="upper">Upper secondary (ages 15–18)</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Subject area</label>
+      <select id="subject">
+        <option value="">— select —</option>
+        <option value="stem">STEM (maths, science, technology)</option>
+        <option value="language">Languages (L1 / L2 / foreign)</option>
+        <option value="humanities">Humanities (history, geography, ethics)</option>
+        <option value="arts">Arts and creative subjects</option>
+        <option value="other">Other / cross-curricular</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Does your school or country have a specific AI policy or approved tool list?</label>
+      <select id="policy">
+        <option value="">— select —</option>
+        <option value="yes_list">Yes — there is an approved tool list I must follow</option>
+        <option value="yes_restrict">Yes — there are restrictions (e.g. age limits, GDPR, data rules)</option>
+        <option value="no">No specific policy yet</option>
+        <option value="unsure">I am not sure</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" onclick="getResult()">Show my recommendation ↓</button>
+    <div id="result-area"></div>
+  </div>
+</div>
+
+<!-- ── SECTION 2: Key criteria explained ─────────────────────────────── -->
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#E1F5EE;color:#0F6E56">2</div>
+    <span class="sec-title">What to look for in any AI tool</span>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="sec-body">
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Age appropriateness.</strong> Check the tool's minimum age in its terms of service. Most general-purpose AI tools (ChatGPT, Gemini, Copilot) require users to be 13 or 18 depending on the country. For primary school, look for education-specific platforms (e.g. Khanmigo, Diffit, MagicSchool AI) designed for younger learners.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Data privacy and GDPR compliance.</strong> Any tool used with students must comply with GDPR (EU) or equivalent national data protection law. Avoid tools that require students to create personal accounts unless your school has a Data Processing Agreement (DPA) in place. Never enter student names, photos, or identifying information.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Content moderation.</strong> Does the tool have safeguards against generating inappropriate content? Education-focused tools typically include content filters designed for classrooms. General-purpose tools may produce unexpected results — especially with younger students or sensitive topics.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Transparency and explainability.</strong> Can students (and you) understand how the tool works at a basic level? Can the tool explain its outputs? Preference should be given to tools that do not present AI-generated content as factual without caveats.</div>
+    </div>
+    <div class="step">
+      <div class="step-dot" style="background:#1D9E75"></div>
+      <div class="step-text"><strong>Cost and access equity.</strong> Will all students in your class be able to access the tool equally? Consider free vs. paid tiers, device requirements, and whether students with disabilities can use it accessibly.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-lbl">Tip</div>
+      <p>Before introducing any new tool to your class, test it yourself for at least 30 minutes. Try to produce content that could be inappropriate — if the safeguards fail in testing, do not use it with students.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 3: Regulations overview ───────────────────────────────── -->
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#FAECE7;color:#993C1D">3</div>
+    <span class="sec-title">Relevant regulations and frameworks</span>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="sec-body">
+    <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:.75rem">These frameworks apply across European school systems and should inform your tool choice.</p>
+    <div class="reg-grid">
+      <div class="reg-item">
+        <div class="reg-item-title">EU AI Act (2024)</div>
+        <div class="reg-item-body">AI systems used in education are classified as high-risk. Providers must ensure transparency, human oversight, and accuracy. Verify that tools used with students are compliant or used under teacher supervision.</div>
+      </div>
+      <div class="reg-item">
+        <div class="reg-item-title">GDPR</div>
+        <div class="reg-item-body">Personal data of minors requires explicit parental consent or school-level DPA. Data must not be transferred outside the EU without adequate safeguards. Prefer tools with EU-based data storage.</div>
+      </div>
+      <div class="reg-item">
+        <div class="reg-item-title">Council of Europe AI guidelines for education</div>
+        <div class="reg-item-body">Recommends human oversight, transparency, and non-discrimination in AI educational tools. Teachers retain full pedagogical responsibility regardless of tool use.</div>
+      </div>
+      <div class="reg-item">
+        <div class="reg-item-title">School / national policy</div>
+        <div class="reg-item-body">Many EU member states and schools have issued their own AI guidance. Always check your national ministry of education website and your school's IT/data policy before use.</div>
+      </div>
+    </div>
+    <div class="warn">
+      <div class="warn-lbl">Important</div>
+      <p>If no approved tool list exists at your school, consult your school leadership or data protection officer before using any AI tool with students. When in doubt, use the tool yourself and share only your own outputs with students.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 4: Pre-use checklist ──────────────────────────────────── -->
+<div class="section">
+  <div class="sec-hdr" onclick="tog(this)">
+    <div class="sec-num" style="background:#E6F1FB;color:#185FA5">4</div>
+    <span class="sec-title">Pre-use checklist</span>
+    <span class="chev">&#9660;</span>
+  </div>
+  <div class="sec-body">
+    <div class="prog-wrap"><div class="prog" id="prog" style="width:0%"></div></div>
+    <div class="prog-lbl" id="prog-lbl">0 of 7 completed</div>
+    <ul class="checklist" style="margin-top:.75rem" id="cklist">
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I have checked my school's approved tool list or consulted my data protection officer</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>The tool meets the minimum age requirement for my students</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I have verified GDPR / data privacy compliance (no student personal data required)</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I have tested the tool myself and it is appropriate for my subject and level</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>All students can access the tool equally (free tier or school licence available)</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I have a plan to maintain teacher oversight during student use</span></li>
+      <li><div class="chk" onclick="chk(this)"><svg width="8" height="8" viewBox="0 0 8 8"><polyline points="1,4 3,6 7,2" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><span>I can explain to students (at a basic level) what the tool does and does not do</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer">
+  <div>
+    <div class="footer-meta">
+      <strong style="font-size:12px;color:var(--color-text-primary)">Related instruction sheets</strong><br>
+      <span class="tag">#03 Generative AI for lesson planning</span>
+      <span class="tag">#05 AI-assisted assessment</span>
+      <span class="tag">#07 Discussing AI ethics with students</span>
+    </div>
+    <div class="footer-meta" style="margin-top:.5rem">AGILE project · CC BY 4.0 · v1.0 · Validated across 5 European countries</div>
+  </div>
+  <div class="footer-btn">
+    <button onclick="sendPrompt('Show me the instruction sheet for using generative AI for lesson planning')">Next sheet ↗</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+function tog(hdr){
+  const b=hdr.nextElementSibling,c=hdr.querySelector('.chev');
+  const o=b.classList.toggle('open');
+  c.classList.toggle('open',o);
+}
+
+function chk(box){
+  box.classList.toggle('on');
+  const all=document.querySelectorAll('#cklist .chk');
+  const done=document.querySelectorAll('#cklist .chk.on').length;
+  document.getElementById('prog').style.width=Math.round(done/all.length*100)+'%';
+  document.getElementById('prog-lbl').textContent=done+' of '+all.length+' completed';
+}
+
+function getResult(){
+  const obj=document.getElementById('obj').value;
+  const level=document.getElementById('level').value;
+  const subject=document.getElementById('subject').value;
+  const policy=document.getElementById('policy').value;
+  const area=document.getElementById('result-area');
+
+  if(!obj||!level||!subject||!policy){
+    area.innerHTML='<div class="amber-card result-card"><div class="result-title">Please answer all four questions</div><div class="result-sub">All fields are needed to generate a recommendation.</div></div>';
+    return;
+  }
+
+  let cls='green-card', title='', body='', examples='';
+
+  if(policy==='yes_list'){
+    cls='amber-card';
+    title='Check your approved list first';
+    body='Your school or country has an approved AI tool list. Use only tools on that list. The guidance below is for reference — your institutional list takes priority.';
+  } else if(policy==='unsure'){
+    cls='amber-card';
+    title='Check your school policy before proceeding';
+    body='You are unsure whether a policy exists. Before using any AI tool with students, ask your school leadership or data protection officer. If none exists, treat the EU AI Act and GDPR requirements as your baseline.';
+  } else if(policy==='yes_restrict' && level==='primary'){
+    cls='red-card';
+    title='Proceed with caution — restrictions apply';
+    body='Primary-level students and your school\'s restrictions require extra care. Use only education-specific tools with verified parental consent and a school-level Data Processing Agreement. Do not use general-purpose AI tools (e.g. ChatGPT) directly with primary students.';
+  } else {
+    if(level==='primary'){
+      cls='amber-card';
+      title='Use education-specific tools only';
+      body='For primary school students, general-purpose AI tools are not recommended. Look for purpose-built educational AI platforms with age-appropriate content filters, no account creation required, and verified GDPR compliance.';
+      examples='Suggested tools to explore: Khanmigo (Khan Academy), Diffit, Book Creator AI (with teacher oversight).';
+    } else if(level==='lower'){
+      if(obj==='explain'||obj==='practice'||obj==='research'){
+        cls='green-card';
+        title='Appropriate — teacher-supervised use recommended';
+        body='Your learning objective and school level are well-suited to AI-assisted activity. Use tools that support teacher oversight and do not require student accounts. Ensure no personal data is entered.';
+        examples='For '+(subject==='stem'?'STEM: try Khanmigo, Photomath, or Copilot with Bing in supervised sessions.':subject==='language'?'languages: try Duolingo Max, LanguageTool, or Copilot for writing feedback.':'your subject: try Microsoft Copilot (school licence), MagicSchool AI, or subject-specific tools.');
+      } else if(obj==='create'||obj==='discuss'){
+        cls='amber-card';
+        title='Suitable — with clear task boundaries';
+        body='Creative and discussion objectives are possible at lower secondary level, but require clear instructions about AI\'s role. Students should produce a first draft themselves before using AI for feedback or expansion.';
+        examples='Ensure you have discussed AI authorship and attribution with students before this activity.';
+      } else {
+        cls='amber-card';
+        title='Proceed carefully';
+        body='Assessment-related AI use at lower secondary level requires teacher oversight at every step. AI should support your assessment process, not replace your professional judgement.';
+      }
+    } else {
+      if(obj==='assess'||obj==='create'||obj==='discuss'||obj==='research'){
+        cls='green-card';
+        title='Appropriate for upper secondary';
+        body='Upper secondary students can engage more independently with AI tools, provided they have received basic AI literacy instruction first. Ensure academic integrity expectations are clearly communicated.';
+        examples='For '+(subject==='stem'?'STEM: GitHub Copilot (coding), Wolfram Alpha, Consensus (research).':subject==='language'?'languages: DeepL Write, Grammarly, LanguageTool, ChatGPT for writing feedback.':subject==='humanities'?'humanities: Perplexity AI, Consensus, Copilot — always require source verification.':subject==='arts'?'arts and creative subjects: Adobe Firefly (school licence), Canva AI — discuss authorship explicitly.':'your subject: Microsoft Copilot or ChatGPT with clearly defined task boundaries and source verification requirements.');
+      } else {
+        cls='green-card';
+        title='Appropriate — standard precautions apply';
+        body='Your context is suitable for AI-supported learning at upper secondary level. Apply standard precautions: no personal data, verified tool compliance, teacher oversight, and clear student guidance.';
+      }
+    }
+  }
+
+  area.innerHTML=`<div class="${cls} result-card"><div class="result-title">${title}</div><div class="result-sub">${body}${examples?'<br><br><em>'+examples+'</em>':''}</div></div>`;
+}
+</script>
